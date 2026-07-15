@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Transportador - Cobros - Nahuel Otero</title>
+    <title>El Transportador - Pagos</title>
     <style>
-        /* ESTILOS BASE Y RESPONSIVE */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,72 +13,89 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0b0c10; /* Negro profundo */
+            background-color: #0b0c10; /* Negro asfalto */
             color: #f5f5f7;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
 
-        /* CONTENEDOR PRINCIPAL (LA TARJETA) */
+        /* TARJETA CONTENEDORA */
         .card {
-            background: #1f2833; /* Gris oscuro metálico */
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            max-width: 400px; /* Ancho máximo para desktop */
-            width: 100%; /* Ancho completo en móvil */
-            overflow: hidden; /* Para que la imagen respete los bordes redondeados */
-            border-top: 5px solid #ffc107; /* Amarillo deportivo */
+            background: #1f2833; /* Metalizado oscuro */
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            max-width: 380px;
+            width: 100%;
+            overflow: hidden;
+            border: 2px solid #ffc107; /* Marco dorado de precisión */
             display: flex;
             flex-direction: column;
         }
 
-        /* IMAGEN DE CABECERA (TU FOTO DE EL TRANSPORTADOR) */
+        /* LA CABECERA (TU IMAGEN DE ACCIÓN) */
         .header-image {
             width: 100%;
             height: auto;
-            aspect-ratio: 16 / 9; /* Mantiene la proporción de la foto */
-            object-fit: cover; /* Ajusta la foto sin deformarla */
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
             display: block;
+            border-bottom: 3px solid #ffc107;
         }
 
-        /* SECCIÓN DE TEXTO Y DATOS */
         .content {
-            padding: 25px;
+            padding: 22px;
             text-align: center;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 22px;
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
-        .sub {
-            color: #ffc107; /* Amarillo */
-            font-size: 14px;
+        /* LA REGLA MODIFICADA CON EL GUIÑO PARA LA PROPINA */
+        .regla-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 15px 0 20px 0;
+            text-align: left;
+            border-radius: 4px;
+        }
+
+        .regla-titulo {
+            color: #ffc107;
+            font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 25px;
+            margin-bottom: 4px;
         }
 
-        /* CAJA DE INFORMACIÓN DEL CVU */
+        .regla-texto {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #e5e5e7;
+            font-style: italic;
+        }
+
+        /* CAJA CON LOS DATOS */
         .info-box {
             background-color: #0b0c10;
-            border: 1px solid #45f3ff; /* Cian tecnológico */
-            border-radius: 8px;
-            padding: 18px;
-            margin-bottom: 25px;
+            border: 1px solid #45f3ff; /* Azul neón de tablero */
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
         .info-item {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .info-item:last-child {
@@ -87,36 +103,35 @@
         }
 
         .label {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
-            color: #66fcf1; /* Celeste cian */
+            color: #66fcf1;
             font-weight: bold;
             display: block;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .value {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            word-break: break-all; /* Rompe el CVU largo si es necesario */
             color: #ffffff;
-            font-family: 'Courier New', Courier, monospace; /* Tipografía monoespaciada para el número */
+            font-family: 'Courier New', Courier, monospace;
         }
 
-        /* BOTÓN DE COPIADO */
+        /* BOTÓN DE COPIAR ESTILO DEPORTIVO */
         .btn-copy {
-            background-color: #ffc107; /* Amarillo */
+            background-color: #ffc107;
             color: #0b0c10;
             border: none;
-            padding: 18px 20px;
-            font-size: 18px;
+            padding: 16px;
+            font-size: 16px;
             font-weight: 800;
             text-transform: uppercase;
             border-radius: 8px;
             width: 100%;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
         }
 
         .btn-copy:active {
@@ -124,71 +139,61 @@
             transform: scale(0.97);
         }
 
-        /* MENSAJE DE ÉXITO */
+        /* MENSAJE FLOTANTE DE ÉXITO */
         .success-text {
-            color: #2befb1; /* Verde brillante */
+            color: #2befb1;
             font-weight: bold;
-            margin-top: 15px;
-            font-size: 15px;
-            height: 20px; /* Espacio reservado */
-            visibility: hidden; /* Oculto por defecto */
+            margin-top: 12px;
+            font-size: 14px;
+            height: 18px;
+            visibility: hidden;
         }
 
-        /* MEDIA QUERY PARA AJUSTES EN PANTALLAS PEQUEÑAS (MÓVILES) */
-        @media (max-width: 480px) {
-            body {
-                padding: 10px; /* Menos espacio alrededor en móvil */
-            }
-            .card {
-                border-radius: 12px; /* Bordes un poco menos redondeados */
-            }
-            .content {
-                padding: 20px; /* Menos padding interno */
-            }
-            h1 {
-                font-size: 20px; /* Título más pequeño */
-            }
-            .sub {
-                font-size: 12px; /* Subtítulo más pequeño */
-            }
-            .value {
-                font-size: 14px; /* CVU un poco más pequeño para que entre */
-            }
-            .btn-copy {
-                font-size: 16px; /* Botón un poco más pequeño */
-                padding: 16px;
-            }
+        /* PIE DE PÁGINA SUTIL */
+        .footer-note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <!-- Esta línea ahora carga tu foto de artista desde tu repositorio -->
-    <img src="foto-artista.jpg" alt="Nahuel Otero - El Transportador" class="header-image">
+    <!-- Tu espectacular foto de acción manejando el Kwid -->
+    <img src="foto-artista.jpg" alt="El Transportador Córdoba" class="header-image">
 
     <div class="content">
         <h1>El Transportador</h1>
-        <p class="sub">Regla N° 4: El pago siempre a término</p>
+        
+        <!-- Bloque de Regla elaborado para generar simpatía y propina -->
+        <div class="regla-box">
+            <div class="regla-titulo">Regla N° 4</div>
+            <div class="regla-texto">
+                "Su paquete llegó intacto. Usted llegó a destino. La entrega fue un éxito... ahora le toca a su transferencia."
+            </div>
+        </div>
 
         <div class="info-box">
             <div class="info-item">
-                <span class="label">Destinatario</span>
+                <span class="label">Titular</span>
                 <span class="value">Carlos Nahuel Otero</span>
             </div>
             <div class="info-item">
-                <span class="label">Plataforma</span>
+                <span class="label">Destino</span>
                 <span class="value">Mercado Pago</span>
             </div>
             <div class="info-item">
                 <span class="label">CVU</span>
-                <!-- Tu CVU real listo para copiar -->
                 <span class="value" id="cvu-text">0000003100075036225057</span>
             </div>
         </div>
 
         <button class="btn-copy" onclick="copiarAlPortapapeles()">Copiar CVU</button>
         <div id="msg-copiado" class="success-text">¡CVU copiado! Listo para pegar</div>
+        
+        <div class="footer-note">*(Las propinas no rompen las reglas de la misión)</div>
     </div>
 </div>
 
@@ -204,7 +209,7 @@
                 msg.style.visibility = 'hidden';
             }, 3000);
         }).catch(err => {
-            alert('Error al copiar. El CVU es: ' + cvu);
+            alert('Error al copiar automáticamente. El CVU es: ' + cvu);
         });
     }
 </script>
