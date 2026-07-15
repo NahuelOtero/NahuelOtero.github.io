@@ -33,23 +33,20 @@
             border-top: 3px solid #ffc107;
             border-bottom: 3px solid #ffc107;
         }
-        /* Lower section with background image and layered content */
         .lower-section-wrapper {
             position: relative;
             background-image: url('fondo_3.png');
             background-size: cover;
             background-position: center;
             padding: 30px 20px;
-            min-height: 400px; /* Adjust as needed */
+            min-height: 400px;
         }
-       /* Overlay ajustado para que se vea el fondo */
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Cambiamos 0.85 (muy oscuro) a 0.5 (semi-transparente) */
             background: rgba(11, 12, 16, 0.5); 
             z-index: 1;
         }
@@ -86,6 +83,7 @@
             width: 100%;
             border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         .footer-note { 
             font-size: 13px; 
@@ -113,12 +111,37 @@
                 <div class="info-box">
                     <div class="info-item"><span class="label">Titular</span><span class="value">Carlos Nahuel Otero</span></div>
                     <div class="info-item"><span class="label">Destino</span><span class="value">Mercado Pago</span></div>
-                    <div class="info-item"><span class="label">CVU</span><span class="value">0000003100075036225057</span></div>
+                    <div class="info-item"><span class="label">CVU</span><span class="value" id="cvu-text">0000003100075036225057</span></div>
                 </div>
-                <button class="btn-copy">COPIAR CVU</button>
+                <button class="btn-copy" id="copy-btn">COPIAR CVU</button>
                 <div class="footer-note">*(Las propinas no rompen las reglas de la misión)</div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            const cvu = document.getElementById('cvu-text').innerText;
+            const btn = this;
+            
+            navigator.clipboard.writeText(cvu).then(function() {
+                const originalText = btn.innerText;
+                btn.innerText = "¡CVU COPIADO!";
+                btn.style.backgroundColor = "#45f3ff";
+                
+                setTimeout(function() {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = "#ffc107";
+                }, 2000);
+            }).catch(function(err) {
+                btn.innerText = "ERROR AL COPIAR";
+                btn.style.backgroundColor = "#ff4d4d";
+                setTimeout(function() {
+                    btn.innerText = "COPIAR CVU";
+                    btn.style.backgroundColor = "#ffc107";
+                }, 2000);
+            });
+        });
+    </script>
 </body>
 </html>
