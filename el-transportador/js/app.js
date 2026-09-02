@@ -208,6 +208,7 @@ function mostrarResultado(r, minutosEspera) {
 function abrirWhatsApp() {
   if (!estado.resultado) return;
   const url = generarUrlWhatsApp({
+    nombre:      document.getElementById('nombre-cliente').value,
     origen:      estado.origen,
     paradas:     estado.paradas.filter(p => p.texto),
     destino:     estado.destino,

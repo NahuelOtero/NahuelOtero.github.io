@@ -48,6 +48,7 @@ Toda la lógica de precios se encuentra en el archivo `js/tarifas.js`. El sistem
 *   **Solo Ida:** El cliente paga el 100% de la ida y se le cobra un **50% de la vuelta** para cubrir parcialmente el rodaje de regreso vacío (`PRECIO_KM_LARGO_VUELTA`).
 
 ### Extras Constantes
+*   **Tu Nombre:** Campo en el formulario que personaliza el saludo inicial y detalle del pasajero en el mensaje de WhatsApp.
 *   **Tiempo de Espera:** El cliente ingresa los minutos de espera deseados. Si se solicita espera, el mínimo cobrado es 30 minutos ($3.500 ARS). A partir de allí, cualquier tiempo (ej: 40 min, 50 min) se fracciona de forma exacta y proporcional a la tarifa por hora (`PRECIO_HORA_ESPERA`).
 *   **Peajes:** Módulo manual en `tarifas.js` basado en palabras clave. El sistema busca hacia dónde viaja el cliente y aplica el costo fijo de peajes en efectivo (cabina) para esa ruta.
 

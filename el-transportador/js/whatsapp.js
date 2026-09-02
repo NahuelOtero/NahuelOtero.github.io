@@ -5,7 +5,10 @@
 const WA_NUMBER = '5493517401122';
 
 function generarUrlWhatsApp(datos) {
-  const { origen, paradas, destino, tipoViaje, fecha, hora, minutosEspera, precioFinal } = datos;
+  const { nombre, origen, paradas, destino, tipoViaje, fecha, hora, minutosEspera, precioFinal } = datos;
+
+  const nombreCliente = nombre ? nombre.trim() : '';
+  const saludoInicial = nombreCliente ? `¡Hola! Soy ${nombreCliente}.` : `¡Hola!`;
 
   const paradasTexto = paradas && paradas.length > 0
     ? paradas.map((p, i) => `   • Parada ${i + 1}: ${p.texto}`).join('\n')
@@ -43,7 +46,8 @@ function generarUrlWhatsApp(datos) {
   }
 
   const msg =
-    `¡Hola! Acabo de cotizar un viaje en tu web. Te paso los detalles:\n\n` +
+    `${saludoInicial} Acabo de cotizar un viaje en tu web. Te paso los detalles:\n\n` +
+    (nombreCliente ? `👤 Cliente: ${nombreCliente}\n` : '') +
     `📍 Origen: ${origen.texto}\n` +
     `🛑 Paradas:\n${paradasTexto}\n` +
     `🏁 Destino: ${destino.texto}\n` +
