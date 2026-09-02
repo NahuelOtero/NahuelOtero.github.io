@@ -1,147 +1,299 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Transportador</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #0b0c10;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        .container {
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-        .title-header {
-            padding: 20px 10px;
-            font-size: 28px;
-            font-weight: 900;
-            text-transform: uppercase;
-            color: #ffc107;
-            letter-spacing: 2px;
-        }
-        .main-image {
-            width: 100%;
-            display: block;
-            border-top: 3px solid #ffc107;
-            border-bottom: 3px solid #ffc107;
-        }
-        .lower-section-wrapper {
-            position: relative;
-            background-image: url('fondo_3.png');
-            background-size: cover;
-            background-position: center;
-            padding: 30px 20px;
-            min-height: 400px;
-        }
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(11, 12, 16, 0.5); 
-            z-index: 1;
-        }
-        .content-layer {
-            position: relative;
-            z-index: 2;
-        }
-        .regla-box {
-            background: #333;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .regla-titulo { color: #ffc107; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-        .regla-texto { font-size: 14px; font-style: italic; }
-        .info-box {
-            border: 2px solid #45f3ff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .info-item { margin-bottom: 10px; }
-        .label { font-size: 10px; color: #66fcf1; text-transform: uppercase; display: block; }
-        .value { font-size: 16px; font-weight: bold; font-family: monospace; }
-        .btn-copy {
-            background-color: #ffc107;
-            color: #0b0c10;
-            border: none;
-            padding: 15px;
-            font-weight: bold;
-            text-transform: uppercase;
-            width: 100%;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .footer-note { 
-            font-size: 13px; 
-            color: #ffc107; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            margin-top: 20px; 
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px #000;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Transportador | Chofer Profesional en Córdoba</title>
+  <meta name="description" content="Cotizá tu viaje al instante. Traslados privados en Córdoba con un chofer profesional. Precios claros, puntualidad garantizada. Contacto directo por WhatsApp.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="title-header">El Transportador</div>
-        <img src="el_transportador.png" alt="Imagen Principal" class="main-image">
-        
-        <div class="lower-section-wrapper">
-            <div class="overlay"></div>
-            <div class="content-layer">
-                <div class="regla-box">
-                    <div class="regla-titulo">REGLA N° 4</div>
-                    <div class="regla-texto">"Su paquete llegó intacto. Usted llegó a destino. La entrega fue un éxito... ahora le toca a su transferencia."</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-item"><span class="label">Titular</span><span class="value">Carlos Nahuel Otero</span></div>
-                    <div class="info-item"><span class="label">Destino</span><span class="value">Mercado Pago</span></div>
-                    <div class="info-item"><span class="label">CVU</span><span class="value" id="cvu-text">0000003100075036225057</span></div>
-                </div>
-                <button class="btn-copy" id="copy-btn">COPIAR CVU</button>
-                <div class="footer-note">*(Las propinas no rompen las reglas de la misión)</div>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        document.getElementById('copy-btn').addEventListener('click', function() {
-            const cvu = document.getElementById('cvu-text').innerText;
-            const btn = this;
-            
-            navigator.clipboard.writeText(cvu).then(function() {
-                const originalText = btn.innerText;
-                btn.innerText = "¡CVU COPIADO!";
-                btn.style.backgroundColor = "#45f3ff";
-                
-                setTimeout(function() {
-                    btn.innerText = originalText;
-                    btn.style.backgroundColor = "#ffc107";
-                }, 2000);
-            }).catch(function(err) {
-                btn.innerText = "ERROR AL COPIAR";
-                btn.style.backgroundColor = "#ff4d4d";
-                setTimeout(function() {
-                    btn.innerText = "COPIAR CVU";
-                    btn.style.backgroundColor = "#ffc107";
-                }, 2000);
-            });
-        });
-    </script>
+  <!-- ══════════════ HERO ══════════════ -->
+  <section id="hero" class="hero">
+    <div class="hero-overlay"></div>
+    <img src="assets/kwid-hero.jpg" alt="Nahuel - Chofer Profesional Córdoba en su Renault Kwid" class="hero-bg" id="hero-bg" onerror="this.style.display='none'">
+    <div class="hero-content hero-top">
+      <div class="hero-badge">⭐ CHOFER PROFESIONAL ⭐</div>
+      <h1 class="hero-title">EL<br>TRANSPORTADOR</h1>
+      <p class="hero-subtitle">Viajes y envíos en manos de un profesional.</p>
+      <p class="hero-location"><i class="fas fa-map-marker-alt"></i> Base en Córdoba Capital · Viajes a todo el País</p>
+    </div>
+    
+    <div class="hero-content hero-bottom">
+      <div class="hero-actions">
+        <a href="#cotizador" class="btn-cta" id="cta-cotizador">
+          <i class="fas fa-calculator"></i> Cotizá tu viaje
+        </a>
+        <a href="https://wa.me/5493517401122" target="_blank" class="btn-cta btn-cta-secondary" id="cta-whatsapp-hero">
+          <i class="fab fa-whatsapp"></i> Contactar
+        </a>
+      </div>
+    </div>
+    <a href="#servicios" class="scroll-indicator" aria-label="Ir a servicios">
+      <i class="fas fa-chevron-down"></i>
+    </a>
+  </section>
+
+  <!-- ══════════════ SERVICIOS ══════════════ -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">LO QUE OFREZCO</span>
+        <h2>Servicios de Traslado</h2>
+        <p>Cada viaje, una experiencia profesional</p>
+      </div>
+      <div class="servicios-grid">
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-city"></i></div>
+          <h3>Traslados Urbanos</h3>
+          <p>Movilidad dentro de Córdoba Capital con puntualidad y comodidad.</p>
+        </div>
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-mountain"></i></div>
+          <h3>Turismo y Sierras de Córdoba</h3>
+          <p>Carlos Paz, Altas Cumbres, Calamuchita, Traslasierra y todos los rincones de la provincia.</p>
+        </div>
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-road"></i></div>
+          <h3>Larga Distancia Nacional</h3>
+          <p>Buenos Aires, Salta, Neuquén, Mendoza y traslados seguros a cualquier punto del país.</p>
+        </div>
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-briefcase"></i></div>
+          <h3>Traslados Corporativos</h3>
+          <p>Servicio profesional para empresas, reuniones y eventos.</p>
+        </div>
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-plane-arrival"></i></div>
+          <h3>Aeropuerto</h3>
+          <p>Transfer al Aeropuerto Internacional Ambrosio Taravella.</p>
+        </div>
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <h3>Tours y Circuitos</h3>
+          <p>Recorridos personalizados con múltiples paradas a medida.</p>
+        </div>
+        <div class="servicio-card animate-in">
+          <div class="servicio-icon"><i class="fas fa-box-open"></i></div>
+          <h3>Envíos y Paquetería</h3>
+          <p>Traslado seguro puerta a puerta de paquetes, documentos y encomiendas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ COTIZADOR ══════════════ -->
+  <section id="cotizador" class="section section-dark">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">COTIZADOR ONLINE</span>
+        <h2>Calculá tu viaje</h2>
+        <p>Precio instantáneo, sin sorpresas</p>
+      </div>
+
+      <div class="cotizador-layout">
+        <!-- FORMULARIO -->
+        <div class="cotizador-form glass-card">
+
+          <div class="form-group">
+            <label for="origen"><i class="fas fa-map-marker-alt accent"></i> Punto de Origen</label>
+            <div class="autocomplete-wrapper">
+              <input type="text" id="origen" placeholder="Ej: Av. Colón 123, Córdoba" autocomplete="off">
+              <ul class="autocomplete-list" id="origen-list" role="listbox"></ul>
+            </div>
+          </div>
+
+          <div id="paradas-container"></div>
+
+          <button type="button" id="btn-agregar-parada" class="btn-secondary" aria-label="Agregar parada intermedia">
+            <i class="fas fa-plus"></i> Agregar Parada Intermedia
+          </button>
+
+          <div class="form-group">
+            <label for="destino"><i class="fas fa-flag-checkered accent"></i> Destino Final</label>
+            <div class="autocomplete-wrapper">
+              <input type="text" id="destino" placeholder="Ej: Villa Carlos Paz, Córdoba" autocomplete="off">
+              <ul class="autocomplete-list" id="destino-list" role="listbox"></ul>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fecha"><i class="fas fa-calendar-alt accent"></i> Fecha de Salida</label>
+              <input type="date" id="fecha">
+            </div>
+            <div class="form-group">
+              <label for="hora"><i class="fas fa-clock accent"></i> Hora de Salida</label>
+              <input type="time" id="hora">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="espera"><i class="fas fa-hourglass-half accent"></i> Tiempo de Espera (Minutos)</label>
+            <input type="number" id="espera" min="0" step="10" value="0" placeholder="Ej: 30, 40, 60...">
+            <small class="form-hint" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; display: block;">Mínimo cobrado: 30 min ($3.500). Luego se fracciona proporcionalmente.</small>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-exchange-alt accent"></i> Tipo de Viaje</label>
+            <div class="tipo-viaje-selector" role="group" aria-label="Tipo de viaje">
+              <button type="button" class="tipo-btn active" data-value="solo_ida" id="btn-solo-ida">
+                <i class="fas fa-arrow-right"></i> Solo Ida
+              </button>
+              <button type="button" class="tipo-btn" data-value="ida_vuelta" id="btn-ida-vuelta">
+                <i class="fas fa-arrows-alt-h"></i> Ida y Vuelta
+              </button>
+            </div>
+          </div>
+
+          <button type="button" id="btn-calcular" class="btn-primary" aria-label="Calcular precio del viaje">
+            <i class="fas fa-calculator"></i> Calcular Precio
+          </button>
+
+          <div id="calcular-error" class="form-error" style="display:none">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="calcular-error-msg"></span>
+          </div>
+        </div>
+
+        <!-- MAPA -->
+        <div class="cotizador-map-wrap">
+          <div id="map"></div>
+          <div class="map-info" id="map-info" style="display:none">
+            <span><i class="fas fa-route"></i> <strong id="distancia-text">--</strong> km</span>
+            <span><i class="fas fa-clock"></i> Aprox. <strong id="duracion-text">--</strong></span>
+          </div>
+          <div class="map-loading" id="map-loading" style="display:none">
+            <div class="spinner"></div><span>Calculando ruta...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTADO -->
+      <div id="resultado" class="resultado-card glass-card" style="display:none" aria-live="polite">
+        <div class="resultado-header">
+          <i class="fas fa-receipt"></i>
+          <h3>Cotización Estimada</h3>
+        </div>
+        <div class="resultado-desglose">
+          <div class="desglose-item">
+            <span>Distancia del recorrido</span>
+            <span id="res-distancia">-- km</span>
+          </div>
+          <div class="desglose-item">
+            <span>Tarifa base</span>
+            <span id="res-base">$0</span>
+          </div>
+          <div class="desglose-item" id="res-espera-row" style="display:none">
+            <span>Tiempo de espera</span>
+            <span id="res-espera">$0</span>
+          </div>
+          <div class="desglose-item" id="res-peajes-row" style="display:none">
+            <span>Peajes</span>
+            <span id="res-peajes">$0</span>
+          </div>
+          <div class="desglose-total">
+            <span>PRECIO TOTAL ESTIMADO</span>
+            <span id="res-total">$0</span>
+          </div>
+        </div>
+        <div class="resultado-leyendas" style="display: flex; flex-direction: column; gap: 12px;">
+          <p class="resultado-leyenda">
+            <i class="fas fa-info-circle"></i>
+            El precio estimado incluye combustible, honorarios del chofer profesional y peajes.
+          </p>
+          <p class="resultado-leyenda" style="color: var(--accent);">
+            <i class="fas fa-calendar-check"></i>
+            <strong>Atención:</strong> Servicio personalizado sujeto a disponibilidad. Se recomienda solicitar con anticipación.
+          </p>
+        </div>
+        <button id="btn-whatsapp" class="btn-whatsapp" aria-label="Consultar disponibilidad por WhatsApp">
+          <i class="fab fa-whatsapp"></i> Consultar Disponibilidad
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ POR QUÉ ELEGIRME ══════════════ -->
+  <section id="porque" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">¿POR QUÉ ELEGIRME?</span>
+        <h2>El estándar profesional</h2>
+      </div>
+      <div class="porque-grid">
+        <div class="porque-item animate-in">
+          <div class="porque-icon"><i class="fas fa-tag"></i></div>
+          <div>
+            <h4>Precio justo y transparente</h4>
+            <p>Cotizás antes de reservar. Sin sorpresas ni tarifas ocultas.</p>
+          </div>
+        </div>
+        <div class="porque-item animate-in">
+          <div class="porque-icon"><i class="fas fa-stopwatch"></i></div>
+          <div>
+            <h4>Puntualidad garantizada</h4>
+            <p>Tu tiempo es valioso. Siempre llego antes de lo pactado.</p>
+          </div>
+        </div>
+        <div class="porque-item animate-in">
+          <div class="porque-icon"><i class="fas fa-shield-alt"></i></div>
+          <div>
+            <h4>Auto seguro y cómodo</h4>
+            <p>Renault Kwid en perfecto estado, limpio y con mantenimiento al día.</p>
+          </div>
+        </div>
+        <div class="porque-item animate-in">
+          <div class="porque-icon"><i class="fas fa-user-tie"></i></div>
+          <div>
+            <h4>Trato profesional</h4>
+            <p>Experiencia, respeto y discreción en cada viaje que realizo.</p>
+          </div>
+        </div>
+        <div class="porque-item animate-in">
+          <div class="porque-icon"><i class="fas fa-moon"></i></div>
+          <div>
+            <h4>Disponible las 24 horas</h4>
+            <p>Mañana, tarde, noche o madrugada. Cuando lo necesités.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-title">EL TRANSPORTADOR</span>
+          <span class="footer-sub">por <em>Nahuel</em> · Chofer Profesional</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://wa.me/5493517401122" target="_blank" class="footer-link" id="footer-whatsapp">
+            <i class="fab fa-whatsapp"></i> +54 9 351 7 401122
+          </a>
+          <span class="footer-sep">·</span>
+          <span class="footer-location">
+            <i class="fas fa-map-marker-alt"></i> Córdoba Capital, Argentina
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 El Transportador · Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/tarifas.js"></script>
+  <script src="js/mapa.js"></script>
+  <script src="js/whatsapp.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
