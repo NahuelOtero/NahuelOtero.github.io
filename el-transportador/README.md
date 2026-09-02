@@ -54,6 +54,26 @@ Toda la lógica de precios se encuentra en el archivo `js/tarifas.js`. El sistem
 
 ---
 
+## 📝 Historial de Mejoras Realizadas
+
+### 1. Formulario y Mensaje de WhatsApp
+*   **Nombre del Cliente:** Se agregó el campo **"Tu Nombre"** al cotizador para saludar y personalizar el mensaje de WhatsApp (*"¡Hola! Soy María González. Acabo de cotizar..."*).
+*   **Formato de Fecha y Hora:** La fecha se convierte automáticamente de `YYYY-MM-DD` a formato `DD/MM/AAAA`, y la hora se desglose claramente.
+*   **Detalle de Paradas:** Muestra de forma numerada las paradas intermedias o indica *"Sin paradas intermedias"* si el viaje es directo.
+
+### 2. Actualización de Peajes (Precios en Efectivo)
+*   **Pago Manual en Cabina:** Se actualizaron todas las referencias de "Telepeaje" por **"Peajes"**, reflejando la tarifa de efectivo cobrada en cabina.
+*   **Cuadro Tarifario (Septiembre 2026):**
+    *   **RAC (Caminos de las Sierras):** $3.000 / cabina (Cat. 2 – Auto).
+    *   **Rutas Nacionales (Corredores Viales):** ~$1.500 / estación.
+*   **Destinos Incluidos:** Más de 35 destinos en Córdoba (Punilla, Calamuchita, Sierras Chicas, Traslasierra, Río Cuarto, Villa María) y rutas interprovinciales (Buenos Aires, Rosario, Mendoza, San Luis, Salta, Tucumán, Neuquén, Mar del Plata, etc.) acumulando la suma real de cabinas del trayecto.
+
+### 3. Tiempo de Espera Flexible
+*   **Entrada en Minutos:** Reemplazo del selector rígido de horas por un campo numérico en minutos.
+*   **Regla de Cobro:** Si se solicita espera, la tarifa mínima cobrada es de 30 minutos ($3.500 ARS). Transcurridos los 30 minutos, se fracciona proporcionalmente por cada minuto adicional (ej: 40 min ➔ 30 min base + 10 min fraccionados).
+
+---
+
 ## 🔧 ¿Cómo actualizar las tarifas?
 
 Para modificar los precios en el futuro debido a la inflación, debes abrir el archivo `js/tarifas.js` con cualquier editor de texto y buscar la constante `PRECIOS` al inicio del archivo:
@@ -75,11 +95,47 @@ const PRECIOS = {
 Simplemente cambia los números por los nuevos valores y guarda el archivo. 
 
 ### Actualización de Peajes
-Justo debajo de los precios, encontrarás `TABLA_PEAJES`. Debes actualizar manualmente la variable `costo` (ej: `2000`) cada vez que Caminos de las Sierras o los corredores nacionales modifiquen los cuadros tarifarios.
+Justo debajo de los precios, encontrarás `TABLA_PEAJES`. Debes actualizar manualmente la variable `costo` (ej: `3000`) cada vez que Caminos de las Sierras o los corredores nacionales modifiquen los cuadros tarifarios.
 
 ---
 
-## 🚀 Despliegue y Mantenimiento
-*   No requiere base de datos ni servidor backend Node/Python.
-*   Para actualizar el sitio web, simplemente haz un "push" de los archivos locales a tu repositorio de GitHub `nahuelotero/el-transportador`.
-*   El número de celular para las reservas de WhatsApp está configurado en `js/whatsapp.js` en la variable `WA_NUMBER`.
+## 🚀 Guía de Conexión y Publicación en GitHub
+
+El sitio web está alojado en **GitHub Pages** en la siguiente dirección pública:
+👉 **URL en vivo:** [https://nahuelotero.github.io/el-transportador/](https://nahuelotero.github.io/el-transportador/)
+
+### Estructura de Repositorio en GitHub
+El proyecto forma parte del repositorio principal de la cuenta **`nahuelotero`**:
+*   **Repositorio GitHub:** `https://github.com/nahuelotero/nahuelotero.github.io.git`
+*   **Ubicación de la app:** Carpeta `/el-transportador/` dentro de la rama `main`.
+
+### Pasos para realizar un Push / Actualizar el sitio:
+
+1. **Abre la terminal en la carpeta del proyecto:**
+   ```bash
+   cd "d:\Agente AI Nahuel\el-transportador"
+   ```
+
+2. **Guarda los cambios locales en Git:**
+   ```bash
+   git add .
+   git commit -m "Descripción de los cambios realizados"
+   ```
+
+3. **Subir los cambios a GitHub Pages (`nahuelotero`):**
+   ```bash
+   git remote set-url origin https://nahuelotero@github.com/nahuelotero/nahuelotero.github.io.git
+   git push -u origin main
+   ```
+
+### 💡 Solución de Problemas de Autenticación (Error 403 / Credenciales):
+Si la consola rechaza el permiso indicando `Permission denied to [OtraCuenta]`:
+1. Borra la credencial de Windows antigua ejecutando en la consola:
+   ```cmd
+   cmdkey /delete:LegacyGeneric:target=git:https://github.com
+   ```
+2. Vuelve a ejecutar `git push -u origin main`.
+3. Aparecerá la ventana emergente de GitHub. Selecciona **"Sign in with your browser"** e inicia sesión con la cuenta **`nahuelotero`**.
+
+---
+*Configuración de número de WhatsApp para reservas:* `WA_NUMBER = '5493517401122'` en `js/whatsapp.js`.
