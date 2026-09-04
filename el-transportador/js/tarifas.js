@@ -8,10 +8,10 @@ const PRECIOS = {
   PRECIO_KM_URBANO:      1200,
   PRECIO_MIN_URBANO:      200,
   RECARGO_HORA_PICO:     1.20,
-  PRECIO_KM_CORTO:        800,
-  PRECIO_KM_LARGO_IDA:    800,
+  PRECIO_KM_CORTO:        825,
+  PRECIO_KM_LARGO_IDA:    825,
   PRECIO_KM_LARGO_VUELTA: 400,
-  PRECIO_HORA_ESPERA:    7000,
+  PRECIO_HORA_ESPERA:   10000,
   PLUS_RETORNO_VACIO:   12000,
 };
 
@@ -205,9 +205,9 @@ function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEsper
 
   let minutosACobrar = 0;
   if (minutosEspera > 0) {
-    // Si solicita tiempo de espera, el mínimo cobrado es 30 min ($3.500 ARS).
-    // A partir de allí, se fracciona proporcionalmente por cada minuto ingresado (ej: 40 min, 50 min, 70 min).
-    minutosACobrar = Math.max(30, minutosEspera);
+    // Si solicita tiempo de espera, el mínimo cobrado es 10 min ($1.667 ARS).
+    // A partir de allí, se fracciona proporcionalmente por cada minuto ingresado.
+    minutosACobrar = Math.max(10, minutosEspera);
   }
 
   const costoEspera  = (minutosACobrar / 60) * PRECIOS.PRECIO_HORA_ESPERA;
