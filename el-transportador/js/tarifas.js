@@ -494,14 +494,6 @@ const CABINAS_PEAJE = [
     "radioKm": 2
   },
   {
-    "id": "osm-738432440",
-    "nombre": "Peaje Pajas Blancas",
-    "lat": -31.31235,
-    "lon": -64.21882,
-    "costo": 3000,
-    "radioKm": 2
-  },
-  {
     "id": "osm-747493910",
     "nombre": "Peaje Autopista Córdoba/Carlos Paz",
     "lat": -31.43664,

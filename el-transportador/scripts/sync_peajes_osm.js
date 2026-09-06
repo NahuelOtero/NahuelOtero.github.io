@@ -99,9 +99,16 @@ async function run() {
   const rawNodes = await getOSMTolls();
   console.log(`Recibidos ${rawNodes.length} nodos de peaje desde OSM.`);
 
-  // Filtrar solo nodos dentro de Argentina (lon > -69.5)
-  const argNodes = rawNodes.filter(n => n.lon >= -69.5 && n.lat >= -55.0 && n.lat <= -21.0);
-  console.log(`Filtrados ${argNodes.length} nodos dentro de fronteras argentinas.`);
+  // Filtrar nodo falso/obsoleto de OSM al sur del Aeropuerto (lat -31.3128) donde NO existe cabina física
+  const argNodes = rawNodes.filter(n => {
+    if (n.lon < -69.5 || n.lat < -55.0 || n.lat > -21.0) return false;
+    // Nodo obsoleto en OSM de Pajas Blancas previo al Aeropuerto (lat -31.3128, lon -64.2188)
+    if (n.lat < -31.305 && n.lat > -31.320 && n.lon < -64.210 && n.lon > -64.225) {
+      return false;
+    }
+    return true;
+  });
+  console.log(`Filtrados ${argNodes.length} nodos dentro de fronteras argentinas (excluyendo nodos obsoletos).`);
 
   // Algoritmo de Clustering espacial (agrupar nodos a menos de 0.8 km)
   const clusters = [];
