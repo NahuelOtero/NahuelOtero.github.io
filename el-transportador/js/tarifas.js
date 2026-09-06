@@ -122,7 +122,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje La Huella",
     "lat": -36.42818,
     "lon": -57.35101,
-    "costo": 2500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -130,7 +130,7 @@ const CABINAS_PEAJE = [
     "nombre": "Estación Samborombón",
     "lat": -35.30755,
     "lon": -58.0536,
-    "costo": 2500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -258,7 +258,7 @@ const CABINAS_PEAJE = [
     "nombre": "Estación Dock Sud",
     "lat": -34.65117,
     "lon": -58.35315,
-    "costo": 2500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -314,7 +314,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje RAC Córdoba (RP/RN )",
     "lat": -31.37009,
     "lon": -64.29964,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -498,7 +498,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Pajas Blancas",
     "lat": -31.31235,
     "lon": -64.21882,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -506,7 +506,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Autopista Córdoba/Carlos Paz",
     "lat": -31.43664,
     "lon": -64.31235,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -530,7 +530,7 @@ const CABINAS_PEAJE = [
     "nombre": "Camino de las Sierras",
     "lat": -31.54044,
     "lon": -64.30492,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -610,7 +610,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Monte Cristo",
     "lat": -31.32776,
     "lon": -63.87494,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -642,7 +642,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje RAC Córdoba (RP/RN )",
     "lat": -31.56943,
     "lon": -63.99541,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -682,7 +682,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje R9 Toledo",
     "lat": -31.53996,
     "lon": -63.97204,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -906,7 +906,7 @@ const CABINAS_PEAJE = [
     "nombre": "Bernal",
     "lat": -34.7011,
     "lon": -58.27466,
-    "costo": 2500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -954,7 +954,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Jesús Maria",
     "lat": -31.1908,
     "lon": -64.15301,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -1234,7 +1234,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Bouwer (RAC RN 36)",
     "lat": -31.51971,
     "lon": -64.22888,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -1370,7 +1370,7 @@ const CABINAS_PEAJE = [
     "nombre": "Arroyo Tegua",
     "lat": -32.69899,
     "lon": -64.35068,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -1530,7 +1530,7 @@ const CABINAS_PEAJE = [
     "nombre": "Corredor Cordobés",
     "lat": -32.13206,
     "lon": -64.29366,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -1890,7 +1890,7 @@ const CABINAS_PEAJE = [
     "nombre": "Camino de las Sierras",
     "lat": -31.74792,
     "lon": -64.41773,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -1898,7 +1898,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Mendiolaza (RAC E-53)",
     "lat": -31.2988,
     "lon": -64.47395,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {
@@ -1922,7 +1922,7 @@ const CABINAS_PEAJE = [
     "nombre": "Peaje Mendiolaza (RAC E-53)",
     "lat": -31.28004,
     "lon": -64.22907,
-    "costo": 1500,
+    "costo": 3000,
     "radioKm": 2
   },
   {

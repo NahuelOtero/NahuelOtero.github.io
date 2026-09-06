@@ -47,12 +47,12 @@ function clasificarNombreYPrecio(c) {
   const lat = c.lat;
   const lon = c.lon;
 
-  // Precios por defecto para Categoría 2 (Auto Normal 2026)
+  // Precios por defecto para Categoría 2 (Auto Normal - Septiembre 2026)
   let costo = 1500;
 
-  // 1. Red RAC Córdoba (Caminos de las Sierras)
+  // 1. Red RAC Córdoba (Caminos de las Sierras) - Tarifa ERSeP Septiembre 2026: $3.000 manual
   if (op.includes('caminos de las sierras') || (lat > -33.0 && lat < -30.5 && lon > -65.0 && lon < -63.5)) {
-    costo = 1500;
+    costo = 3000;
     if (!name || name.includes('Cabina')) {
       if (lat < -31.40 && lat > -31.46 && lon < -64.25) name = 'Peaje Yocsina / Carlos Paz (RAC RN 20)';
       else if (lat < -31.50 && lat > -31.56 && lon > -64.25 && lon < -64.15) name = 'Peaje Bouwer (RAC RN 36)';
@@ -67,13 +67,13 @@ function clasificarNombreYPrecio(c) {
     }
   }
 
-  // 2. Ruta 2 / Costa Atlántica (AUBASA)
+  // 2. Ruta 2 / Costa Atlántica (AUBASA) - Tarifa 2026: $3.000 manual
   else if (op.includes('aubasa') || name.toLowerCase().includes('samborombón') || name.toLowerCase().includes('maipú') || name.toLowerCase().includes('la huella')) {
-    costo = 2500; // Tarifa Costa Atlántica
+    costo = 3000; // Tarifa Costa Atlántica
     if (!name) name = `Peaje AUBASA (Ruta 2/11)`;
   }
 
-  // 3. NOA & Accesos Capitales (Salta / Jujuy / Tucumán)
+  // 3. NOA & Accesos Capitales (Salta / Jujuy / Tucumán / Corredores Viales Nacionales Res. 248/2026: $1.500)
   else if (lat > -26.5 && lat < -24.0 && lon > -66.0 && lon < -64.5) {
     costo = 1500;
     if (lat < -24.75 && lat > -24.80 && lon < -65.30) name = 'Peaje Aunor (Acceso a Salta Capital)';
