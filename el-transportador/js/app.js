@@ -202,8 +202,15 @@ function mostrarResultado(r, minutosEspera) {
     filaPeajes.style.display = 'flex';
 
     if (r.detallesPeajes && r.detallesPeajes.length > 0 && divDetalle && listaDetalle) {
-      listaDetalle.innerHTML = r.detallesPeajes.map(p => `<li><i class="fas fa-check-circle" style="color:var(--accent,#06b6d4)"></i> ${p.nombre} (${formatARS(p.costo)})</li>`).join('');
-      divDetalle.style.display = 'block';
+      listaDetalle.innerHTML = r.detallesPeajes.map(p => `
+        <li style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; border:1px solid rgba(6,182,212,0.2); font-size:0.88rem;">
+          <span><i class="fas fa-road" style="color:var(--accent,#06b6d4); margin-right:8px;"></i> ${p.nombre}</span>
+          <strong style="color:var(--text,#f1f5f9); font-weight:700; font-size:0.92rem;">${formatARS(p.costo)}</strong>
+        </li>
+      `).join('');
+      divDetalle.style.display = 'flex';
+      divDetalle.style.flexDirection = 'column';
+      divDetalle.style.gap = '6px';
     } else if (divDetalle) {
       divDetalle.style.display = 'none';
     }
