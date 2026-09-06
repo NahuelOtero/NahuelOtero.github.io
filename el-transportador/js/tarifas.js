@@ -55,66 +55,56 @@ const PRECIOS = {
 //      ≈ $3.000 + $4.500 = ~$7.500  → redondeamos a $8.000
 //  • Córdoba → San Luis / Villa Mercedes (RN 36 o RN 7):
 //      3 RAC + ~1 nacional
-//      ≈ $9.000 + $1.500 = ~$10.500  → redondeamos a $11.000
-//  • Córdoba → Salta / Tucumán (RN 9 Norte):
-//      1 RAC + ~2 nacionales
-//      ≈ $3.000 + $3.000 = ~$6.000
-//  • Córdoba → Neuquén (RN 36 → RN 35):
-//      3 RAC + ~3 nacionales
-// ═══════════════════════════════════════════════════════════════
+//      ≈ $9.000 + $1.500const CABINAS_PEAJE = [
+  // ── RED RAC CÓRDOBA (Caminos de las Sierras) - Auto Normal: $1.500 ──────
+  { id: 'cba-carlos-paz',    nombre: 'Peaje Yocsina / Carlos Paz (RAC RN 20)',        lat: -31.43664, lon: -64.31235, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-bouwer',        nombre: 'Peaje Bouwer (RAC RN 36)',                     lat: -31.51971, lon: -64.22888, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-piedras-moras', nombre: 'Peaje Piedras Moras (RN 36 Almafuerte)',       lat: -32.13206, lon: -64.29366, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-arroyo-tegua',  nombre: 'Peaje Arroyo Tegua (RN 36 Alcira Gigena)',     lat: -32.69899, lon: -64.35068, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-juarez-celman', nombre: 'Peaje Juárez Celman (RAC RN 9 Norte)',         lat: -31.19080, lon: -64.15301, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-toledo',        nombre: 'Peaje Toledo / C. Remedios (RAC RN 9 Sur)',     lat: -31.53996, lon: -63.97204, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-aeropuerto',    nombre: 'Peaje Mendiolaza (RAC E-53)',                  lat: -31.29500, lon: -64.20900, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-los-cedros',    nombre: 'Peaje Los Cedros (RAC Ruta 5 Alta Gracia)',    lat: -31.54044, lon: -64.30492, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-la-calera',     nombre: 'Peaje La Calera (RAC E-55)',                   lat: -31.35200, lon: -64.33100, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-san-roque',     nombre: 'Peaje San Roque (RAC Autovía Punilla)',        lat: -31.38500, lon: -64.44800, costo: 1500, radioKm: 2.0 },
+  { id: 'cba-monte-cristo',  nombre: 'Peaje Monte Cristo (RAC RN 19)',               lat: -31.32776, lon: -63.87494, costo: 1500, radioKm: 2.0 },
 
-const CABINAS_PEAJE = [
-  // ── RED RAC CÓRDOBA (Caminos de las Sierras) ─────────────────
-  { id: 'cba-carlos-paz',   nombre: 'Peaje Yocsina / Carlos Paz (RAC RN 20)',        lat: -31.43691, lon: -64.31234, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-bouwer',       nombre: 'Peaje Bouwer (RAC RN 36)',                     lat: -31.54003, lon: -64.19500, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-piedras-moras',nombre: 'Peaje Piedras Moras (RN 36 Almafuerte)',       lat: -32.18500, lon: -64.24800, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-arroyo-tegua', nombre: 'Peaje Arroyo Tegua (RN 36 Alcira Gigena)',     lat: -32.74800, lon: -64.32100, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-juarez-celman',nombre: 'Peaje Juárez Celman (RAC RN 9 Norte)',         lat: -31.27200, lon: -64.14800, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-toledo',       nombre: 'Peaje Toledo / C. Remedios (RAC RN 9 Sur)',     lat: -31.54003, lon: -63.97212, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-aeropuerto',   nombre: 'Peaje Mendiolaza (RAC E-53)',                  lat: -31.29500, lon: -64.20900, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-los-cedros',   nombre: 'Peaje Los Cedros (RAC Ruta 5 Alta Gracia)',    lat: -31.54900, lon: -64.30100, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-la-calera',    nombre: 'Peaje La Calera (RAC E-55)',                   lat: -31.35200, lon: -64.33100, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-san-roque',    nombre: 'Peaje San Roque (RAC Autovía Punilla)',        lat: -31.38500, lon: -64.44800, costo: 3000, radioKm: 2.0 },
-  { id: 'cba-autovia-calam',nombre: 'Peaje Autovía Calamuchita (RP 5)',             lat: -31.78500, lon: -64.45200, costo: 3000, radioKm: 2.0 },
+  // ── CORREDOR NOA (RN 9 / RN 34 / RN 38 / RN 68) ──────────────────────────
+  { id: 'noa-fernandez',     nombre: 'Peaje Fernández (RN 34 Santiago del Estero)',  lat: -27.92500, lon: -63.89500, costo: 1500, radioKm: 2.0 },
+  { id: 'noa-molle-yaco',    nombre: 'Peaje Molle Yaco (RN 9 Trancas Tucumán)',      lat: -26.29471, lon: -65.28076, costo: 1500, radioKm: 2.0 },
+  { id: 'noa-cabeza-buey',   nombre: 'Peaje Cabeza de Buey (RN 9 Salta)',            lat: -24.81427, lon: -65.01586, costo: 1500, radioKm: 2.0 },
+  { id: 'noa-aunor',         nombre: 'Peaje Aunor (Acceso a Salta Capital)',         lat: -24.77756, lon: -65.31948, costo: 1500, radioKm: 2.0 },
 
-  // ── CORREDOR RUTA 19 & MESOPOTAMIA (Córdoba ➔ Santa Fe ➔ Misiones) ──
-  { id: 'rn19-devoto',      nombre: 'Peaje Devoto (RN 19 Córdoba)',                 lat: -31.41087, lon: -62.20537, costo: 1500, radioKm: 2.0 },
-  { id: 'rn19-franck',      nombre: 'Peaje Franck (RN 19 Santa Fe)',                lat: -31.57500, lon: -60.91500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn168-tunel',      nombre: 'Peaje Túnel Subfluvial (RN 168 Sta Fe-Paraná)',lat: -31.69800, lon: -60.49500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn14-colonia-elia',nombre: 'Peaje Colonia Elía (RN 14 Entre Ríos)',        lat: -32.65800, lon: -58.34800, costo: 1500, radioKm: 2.0 },
-  { id: 'rn14-yerua',       nombre: 'Peaje Yeruá (RN 14 Concordia Entre Ríos)',     lat: -31.58500, lon: -58.28500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn14-piedras-blan',nombre: 'Peaje Piedras Blancas (RN 14 Corrientes Sur)',  lat: -30.45800, lon: -57.98500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn14-bonpland',    nombre: 'Peaje Bonpland (RN 14 Corrientes)',            lat: -29.81800, lon: -57.42800, costo: 1500, radioKm: 2.0 },
-  { id: 'rn12-ituzaingo',   nombre: 'Peaje Ituzaingó (RN 12 Corrientes)',           lat: -27.58500, lon: -56.68500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn12-santa-ana',   nombre: 'Peaje Santa Ana (RN 12 Misiones)',             lat: -27.35800, lon: -55.58500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn16-puente-chaco',nombre: 'Peaje Puente Chaco - Corrientes (RN 16)',      lat: -27.46800, lon: -58.85500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn16-makalle',     nombre: 'Peaje Makallé (RN 16 Chaco)',                  lat: -27.20800, lon: -59.28500, costo: 1500, radioKm: 2.0 },
+  // ── CORREDOR RN 9 (Córdoba ➔ Rosario ➔ Buenos Aires) ────────────────────
+  { id: 'rn9-james-craik',   nombre: 'Peaje James Craik (RN 9 Córdoba)',             lat: -32.18869, lon: -63.38943, costo: 1500, radioKm: 2.0 },
+  { id: 'rn9-carcarana',     nombre: 'Peaje Carcarañá (RN 9 Santa Fe)',              lat: -32.87637, lon: -61.16987, costo: 1500, radioKm: 2.0 },
+  { id: 'rn9-general-lagos', nombre: 'Peaje General Lagos (RN 9 Santa Fe)',          lat: -33.12882, lon: -60.57803, costo: 1500, radioKm: 2.0 },
+  { id: 'rn9-zarate',        nombre: 'Peaje Zárate (RN 9 Buenos Aires)',             lat: -34.10117, lon: -59.15035, costo: 1500, radioKm: 2.0 },
+  { id: 'ausol-campana',     nombre: 'Peaje Panamericana Campana (Ausol)',           lat: -34.25800, lon: -58.91800, costo: 1500, radioKm: 2.0 },
+  { id: 'ausol-troncal',     nombre: 'Peaje Panamericana Troncal (Ausol)',           lat: -34.47716, lon: -58.65667, costo: 1500, radioKm: 2.0 },
 
-  // ── CORREDOR RN 9 (Córdoba ➔ Rosario ➔ Buenos Aires) ─────────
-  { id: 'rn9-james-craik',  nombre: 'Peaje James Craik (RN 9 Córdoba)',             lat: -32.18875, lon: -63.38952, costo: 1500, radioKm: 2.0 },
-  { id: 'rn9-carcarana',    nombre: 'Peaje Carcarañá (RN 9 Santa Fe)',              lat: -32.87617, lon: -61.16982, costo: 1500, radioKm: 2.0 },
-  { id: 'rn9-general-lagos',nombre: 'Peaje General Lagos (RN 9 Santa Fe)',          lat: -33.15800, lon: -60.57500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn9-zarate',       nombre: 'Peaje Zárate (RN 9 Buenos Aires)',             lat: -34.10105, lon: -59.15029, costo: 1500, radioKm: 2.0 },
-  { id: 'rn9-campana',      nombre: 'Peaje Panamericana Campana (Ausol)',           lat: -34.25800, lon: -58.91800, costo: 1500, radioKm: 2.0 },
-  { id: 'ausol-henry-ford', nombre: 'Peaje Panamericana Acceso Norte (Ausol)',        lat: -34.46800, lon: -58.55200, costo: 2000, radioKm: 2.0 },
+  // ── CORREDOR RN 19 / RN 168 / MESOPOTAMIA ────────────────────────────────
+  { id: 'rn19-devoto',       nombre: 'Peaje Devoto (RN 19 Córdoba)',                 lat: -31.41087, lon: -62.20537, costo: 1500, radioKm: 2.0 },
+  { id: 'rn19-franck',       nombre: 'Peaje Franck (RN 19 Santa Fe)',                lat: -31.63625, lon: -60.97415, costo: 1500, radioKm: 2.0 },
+  { id: 'rn168-tunel',       nombre: 'Peaje Túnel Subfluvial (Santa Fe - Paraná)',   lat: -31.68742, lon: -60.51205, costo: 1500, radioKm: 2.0 },
+  { id: 'rn14-colonia-elia', nombre: 'Peaje Colonia Elía (RN 14 Entre Ríos)',        lat: -32.65800, lon: -58.34800, costo: 1500, radioKm: 2.0 },
+  { id: 'rn14-yerua',        nombre: 'Peaje Yeruá (RN 14 Concordia Entre Ríos)',     lat: -31.58500, lon: -58.28500, costo: 1500, radioKm: 2.0 },
+  { id: 'rn14-piedras-blan', nombre: 'Peaje Piedras Blancas (RN 14 Corrientes Sur)',  lat: -30.45800, lon: -57.98500, costo: 1500, radioKm: 2.0 },
+  { id: 'rn14-bonpland',     nombre: 'Peaje Bonpland (RN 14 Corrientes)',            lat: -29.81800, lon: -57.42800, costo: 1500, radioKm: 2.0 },
+  { id: 'rn12-ituzaingo',    nombre: 'Peaje Ituzaingó (RN 12 Corrientes)',           lat: -27.58500, lon: -56.68500, costo: 1500, radioKm: 2.0 },
+  { id: 'rn12-santa-ana',    nombre: 'Peaje Santa Ana (RN 12 Misiones)',             lat: -27.35800, lon: -55.58500, costo: 1500, radioKm: 2.0 },
+  { id: 'rn12-fachinal',     nombre: 'Peaje Fachinal (RN 105 / RN 12 Posadas)',      lat: -27.64416, lon: -55.81592, costo: 1500, radioKm: 2.0 },
 
-  // ── CORREDOR CUYO / RN 7 / RN 8 (Mendoza / San Luis / San Juan) ──
-  { id: 'rn7-justo-daract', nombre: 'Peaje Justo Daract (RN 7 San Luis)',           lat: -33.86800, lon: -65.18500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn7-la-cumbre',    nombre: 'Peaje La Cumbre (RN 7 San Luis)',              lat: -33.51800, lon: -66.11500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn7-desaguadero',  nombre: 'Peaje Desaguadero (RN 7 San Luis-Mendoza)',    lat: -33.40200, lon: -67.15500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn35-mackenna',    nombre: 'Peaje Vicuña Mackenna (RN 35 Córdoba Sur)',    lat: -33.91800, lon: -64.39500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn8-lujan',        nombre: 'Peaje Luján / Solís (RN 8)',                   lat: -34.33100, lon: -59.25500, costo: 1500, radioKm: 2.0 },
+  // ── CORREDOR CUYO / RN 7 / RN 8 / RN 35 ──────────────────────────────────
+  { id: 'rn35-sampacho',     nombre: 'Peaje Sampacho (RN 8 / RN 35 Córdoba)',        lat: -33.42416, lon: -64.77561, costo: 1500, radioKm: 2.0 },
+  { id: 'rn7-la-cumbre',     nombre: 'Peaje La Cumbre (RN 7 San Luis)',              lat: -33.35912, lon: -66.06709, costo: 1500, radioKm: 2.0 },
+  { id: 'rn7-desaguadero',   nombre: 'Peaje Desaguadero (RN 7 San Luis - Mendoza)',  lat: -33.41290, lon: -67.11475, costo: 1500, radioKm: 2.0 },
+  { id: 'rn7-la-paz',        nombre: 'Peaje La Paz (RN 7 Mendoza)',                  lat: -33.43584, lon: -67.50243, costo: 1500, radioKm: 2.0 },
 
-  // ── CORREDOR NOA (Tucumán / Salta / Jujuy / Santiago del Estero) ──────
-  { id: 'rn34-fernandez',   nombre: 'Peaje Fernández (RN 34 Santiago del Estero)',  lat: -27.92500, lon: -63.89500, costo: 1500, radioKm: 2.0 },
-  { id: 'rn9-molle-yaco',   nombre: 'Peaje Molle Yaco (RN 9 Tucumán)',              lat: -26.35800, lon: -65.26800, costo: 1500, radioKm: 2.0 },
-  { id: 'rn9-cabeza-buey',  nombre: 'Peaje Cabeza de Buey (RN 9 Salta)',            lat: -24.78500, lon: -65.04800, costo: 1500, radioKm: 2.0 },
-
-  // ── BUENOS AIRES / SANTA FE / COSTA ATLÁNTICA ────────────────
-  { id: 'ap-rosario-stafe', nombre: 'Peaje Autopista Rosario - Santa Fe (AP-01)',   lat: -32.78500, lon: -60.74800, costo: 1500, radioKm: 2.0 },
-  { id: 'aubasa-hudson',    nombre: 'Peaje Hudson (Autopista BsAs - La Plata)',     lat: -34.78800, lon: -58.17500, costo: 2000, radioKm: 2.0 },
-  { id: 'aubasa-samborombon',nombre: 'Peaje Samborombón (Ruta 2 Costa Atlántica)',   lat: -35.56800, lon: -58.04800, costo: 3000, radioKm: 2.0 },
-  { id: 'aubasa-maipu',     nombre: 'Peaje Maipú (Ruta 2 Costa Atlántica)',         lat: -36.86800, lon: -57.88500, costo: 3000, radioKm: 2.0 },
+  // ── COSTA ATLÁNTICA & BUENOS AIRES ───────────────────────────────────────
+  { id: 'aubasa-hudson',     nombre: 'Peaje Hudson (Autopista BsAs - La Plata)',     lat: -34.78800, lon: -58.17500, costo: 1500, radioKm: 2.0 },
+  { id: 'aubasa-samborombon',nombre: 'Peaje Samborombón (Ruta 2 Costa Atlántica)',   lat: -35.30755, lon: -58.05360, costo: 2500, radioKm: 2.0 },
+  { id: 'aubasa-maipu',      nombre: 'Peaje Maipú (Ruta 2 Costa Atlántica)',         lat: -36.86175, lon: -57.86665, costo: 2500, radioKm: 2.0 },
 ];
 
 function esHoraPico(hora) {
@@ -147,6 +137,24 @@ function calcularPeajesEspaciales(routeCoords) {
 
   CABINAS_PEAJE.forEach(cabina => {
     const pasoPorCabina = routeCoords.some(pt => {
+      const lon = pt[0];
+      const lat = pt[1];
+      // Pre-filtro de bounding box (~11km margin)
+      if (Math.abs(lat - cabina.lat) > 0.1 || Math.abs(lon - cabina.lon) > 0.1) {
+        return false;
+      }
+      const dist = calcularDistanciaKm(lat, lon, cabina.lat, cabina.lon);
+      return dist <= (cabina.radioKm || 2.0);
+    });
+
+    if (pasoPorCabina) {
+      cabinasCruzadas.push({ nombre: cabina.nombre, costo: cabina.costo });
+      costoTotal += cabina.costo;
+    }
+  });
+
+  return { costoTotal, detalles: cabinasCruzadas };
+}st pasoPorCabina = routeCoords.some(pt => {
       const lon = pt[0];
       const lat = pt[1];
       // Pre-filtro de bounding box (~50km margin)
