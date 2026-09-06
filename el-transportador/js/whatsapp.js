@@ -64,6 +64,7 @@ function generarUrlWhatsApp(datos) {
     peajesTexto +
     `💳 Precio Estimado: ${formatARS(precioFinal)} ARS\n\n` +
     `🗺️ Ver ruta en el mapa:\n${mapUrl}\n\n` +
+    `ℹ️ *Nota:* El cálculo de peajes se realiza mediante la red geográfica oficial de OpenStreetMap (OSM) y GPS OSRM. Los montos son estimados y se confirman al coordinar tu reserva.\n\n` +
     `Quiero coordinar la fecha del viaje y confirmar disponibilidad.`;
 
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
