@@ -88,7 +88,7 @@ async function calcularRuta(waypoints) {
     document.getElementById('duracion-text').textContent  = minutos + ' min';
     document.getElementById('map-info').style.display     = 'flex';
 
-    return { kmIda, minutos };
+    return { kmIda, minutos, routeCoords: ruta.geometry.coordinates };
   } catch (e) {
     console.error('Error OSRM:', e);
     return null;

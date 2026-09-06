@@ -131,15 +131,17 @@ function agregarParada() {
 // ── Recalcular ruta automáticamente al cambiar puntos ───────
 async function recalcularRutaAuto() {
   const waypoints = armarWaypoints();
-  if (waypoints.length < 2) { limpiarRuta(); estado.rutaOk = false; return; }
+  if (waypoints.length < 2) { limpiarRuta(); estado.rutaOk = false; estado.routeCoords = null; return; }
 
   const res = await calcularRuta(waypoints);
   if (res) {
-    estado.kmIda   = res.kmIda;
-    estado.minutos = res.minutos;
-    estado.rutaOk  = true;
+    estado.kmIda       = res.kmIda;
+    estado.minutos     = res.minutos;
+    estado.routeCoords = res.routeCoords;
+    estado.rutaOk      = true;
   } else {
-    estado.rutaOk = false;
+    estado.rutaOk      = false;
+    estado.routeCoords = null;
   }
 }
 
@@ -174,6 +176,7 @@ async function calcular() {
     minutosEspera,
     estado.destino.texto,
     estado.origen.texto,
+    estado.routeCoords
   );
 
   estado.resultado = result;
@@ -186,6 +189,8 @@ function mostrarResultado(r, minutosEspera) {
 
   const filaEspera  = document.getElementById('res-espera-row');
   const filaPeajes  = document.getElementById('res-peajes-row');
+  const divDetalle  = document.getElementById('res-peajes-detalle');
+  const listaDetalle = document.getElementById('res-peajes-lista');
 
   if (r.costoEspera > 0) {
     document.getElementById('res-espera').textContent = formatARS(r.costoEspera);
@@ -195,7 +200,17 @@ function mostrarResultado(r, minutosEspera) {
   if (r.costosPeajes > 0) {
     document.getElementById('res-peajes').textContent = formatARS(r.costosPeajes);
     filaPeajes.style.display = 'flex';
-  } else { filaPeajes.style.display = 'none'; }
+
+    if (r.detallesPeajes && r.detallesPeajes.length > 0 && divDetalle && listaDetalle) {
+      listaDetalle.innerHTML = r.detallesPeajes.map(p => `<li><i class="fas fa-check-circle" style="color:var(--accent,#06b6d4)"></i> ${p.nombre} (${formatARS(p.costo)})</li>`).join('');
+      divDetalle.style.display = 'block';
+    } else if (divDetalle) {
+      divDetalle.style.display = 'none';
+    }
+  } else {
+    filaPeajes.style.display = 'none';
+    if (divDetalle) divDetalle.style.display = 'none';
+  }
 
   document.getElementById('res-total').textContent = formatARS(r.totalRedondeado);
 
@@ -217,6 +232,7 @@ function abrirWhatsApp() {
     hora:        document.getElementById('hora').value,
     minutosEspera: parseInt(document.getElementById('espera').value, 10) || 0,
     precioFinal: estado.resultado.totalRedondeado,
+    detallesPeajes: estado.resultado.detallesPeajes || [],
   });
   window.open(url, '_blank');
 }

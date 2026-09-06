@@ -64,87 +64,97 @@ const PRECIOS = {
 //      ≈ $9.000 + $4.500 = ~$13.500  → redondeamos a $14.000
 // ═══════════════════════════════════════════════════════════════
 
-const TABLA_PEAJES = [
-  // ── Destinos dentro de Córdoba (RAC – Caminos de las Sierras) ──
-  // Autopista RN 20 / RN 38 – Sierras Chicas y Punilla
-  { id: 'carlos-paz',     keywords: ['carlos paz', 'villa carlos paz'],                                costo: 3000   },
-  { id: 'cosquin',        keywords: ['cosquín', 'cosquin'],                                            costo: 3000   },
-  { id: 'la-falda',       keywords: ['la falda'],                                                      costo: 3000   },
-  { id: 'capilla-monte',  keywords: ['capilla del monte'],                                             costo: 3000   },
-  { id: 'huerta-grande',  keywords: ['huerta grande'],                                                 costo: 3000   },
-  { id: 'la-cumbre',      keywords: ['la cumbre'],                                                     costo: 3000   },
-  { id: 'cruz-eje',       keywords: ['cruz del eje'],                                                  costo: 3000   },
+// ═══════════════════════════════════════════════════════════════
+//  BASE DE DATOS GEORREFERENCIADA DE PEAJES (ARGENTINA)
+// ═══════════════════════════════════════════════════════════════
 
-  // RN 36 – Hacia el Sur / Calamuchita
-  { id: 'alta-gracia',    keywords: ['alta gracia'],                                                   costo: 0      },
-  { id: 'bialet-masse',   keywords: ['bialet massé', 'bialet masse'],                                  costo: 3000   },
-  { id: 'sta-rosa-calam', keywords: ['santa rosa de calamuchita', 'santa rosa calamuchita'],           costo: 6000   },
-  { id: 'embalse',        keywords: ['embalse'],                                                       costo: 6000   },
+const CABINAS_PEAJE = [
+  // ── RED RAC CÓRDOBA (Caminos de las Sierras) ─────────────────
+  { id: 'cba-carlos-paz',   nombre: 'Peaje Autopista Carlos Paz (RAC RN 20)',        lat: -31.4589, lon: -64.3031, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-bouwer',       nombre: 'Peaje Bouwer (RAC RN 36)',                     lat: -31.5540, lon: -64.1950, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-piedras-moras',nombre: 'Peaje Piedras Moras (RN 36 Almafuerte)',       lat: -32.1850, lon: -64.2480, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-arroyo-tegua', nombre: 'Peaje Arroyo Tegua (RN 36 Alcira Gigena)',     lat: -32.7480, lon: -64.3210, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-juarez-celman',nombre: 'Peaje Juárez Celman (RAC RN 9 Norte)',         lat: -31.2720, lon: -64.1480, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-toledo',       nombre: 'Peaje Toledo / C. Remedios (RAC RN 9 Sur)',     lat: -31.5450, lon: -64.0050, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-aeropuerto',   nombre: 'Peaje Mendiolaza (RAC E-53)',                  lat: -31.2950, lon: -64.2090, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-los-cedros',   nombre: 'Peaje Los Cedros (RAC Ruta 5)',                lat: -31.5490, lon: -64.3010, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-la-calera',    nombre: 'Peaje La Calera (RAC E-55)',                   lat: -31.3520, lon: -64.3310, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-san-roque',    nombre: 'Peaje San Roque (RAC Autovía Punilla)',        lat: -31.3850, lon: -64.4480, costo: 3000, radioKm: 0.5 },
+  { id: 'cba-autovia-calam',nombre: 'Peaje Autovía Calamuchita (RP 5)',             lat: -31.7850, lon: -64.4520, costo: 3000, radioKm: 0.5 },
 
-  // RP 5 / Autovía Calamuchita
-  { id: 'vgb',            keywords: ['villa general belgrano', 'villa gral belgrano', 'villa gral. belgrano'], costo: 3000  },
-  { id: 'la-cumbrecita',  keywords: ['la cumbrecita'],                                                costo: 3000   },
+  // ── CORREDOR RN 9 (Córdoba → Rosario → Buenos Aires) ─────────
+  { id: 'rn9-james-craik',  nombre: 'Peaje James Craik (RN 9 Córdoba)',             lat: -32.1640, lon: -63.3420, costo: 1500, radioKm: 0.5 },
+  { id: 'rn9-carcarana',    nombre: 'Peaje Carcarañá (RN 9 Santa Fe)',              lat: -32.8550, lon: -61.1680, costo: 1500, radioKm: 0.5 },
+  { id: 'rn9-general-lagos',nombre: 'Peaje General Lagos (RN 9 Santa Fe)',          lat: -33.1580, lon: -60.5750, costo: 1500, radioKm: 0.5 },
+  { id: 'rn9-zarate',       nombre: 'Peaje Zárate (RN 9 Buenos Aires)',             lat: -34.1450, lon: -59.0780, costo: 1500, radioKm: 0.5 },
+  { id: 'rn9-campana',      nombre: 'Peaje Panamericana Campana (Ausol)',           lat: -34.2580, lon: -58.9180, costo: 1500, radioKm: 0.5 },
+  { id: 'ausol-henry-ford', nombre: 'Peaje Panamericana Acceso Norte (Ausol)',        lat: -34.4680, lon: -58.5520, costo: 2000, radioKm: 0.5 },
 
-  // RN 9 Norte – Hacia Jesús María
-  { id: 'jesus-maria',    keywords: ['jesús maría', 'jesus maria'],                                   costo: 3000   },
-  { id: 'colonia-caroya',  keywords: ['colonia caroya'],                                               costo: 3000   },
-  { id: 'rio-ceballos',   keywords: ['río ceballos', 'rio ceballos', 'unquillo', 'salsipuedes'],      costo: 0      },
+  // ── CORREDOR CUYO / RN 7 / RN 8 (Mendoza / San Luis) ─────────
+  { id: 'rn7-desaguadero',  nombre: 'Peaje Desaguadero (RN 7 San Luis-Mendoza)',    lat: -33.4020, lon: -67.1550, costo: 1500, radioKm: 0.5 },
+  { id: 'rn7-la-cumbre',    nombre: 'Peaje La Cumbre (RN 7 San Luis)',              lat: -33.5180, lon: -66.1150, costo: 1500, radioKm: 0.5 },
+  { id: 'rn7-justo-daract', nombre: 'Peaje Justo Daract (RN 7 San Luis)',           lat: -33.8680, lon: -65.1850, costo: 1500, radioKm: 0.5 },
+  { id: 'rn35-mackenna',    nombre: 'Peaje Vicuña Mackenna (RN 35 Córdoba Sur)',    lat: -33.9180, lon: -64.3950, costo: 1500, radioKm: 0.5 },
+  { id: 'rn8-lujan',        nombre: 'Peaje Luján / Solís (RN 8)',                   lat: -34.3310, lon: -59.2550, costo: 1500, radioKm: 0.5 },
 
-  // RN 9 Sur – Hacia Villa María
-  { id: 'villa-maria',    keywords: ['villa maría', 'villa maria'],                                   costo: 3000   },
-  { id: 'bell-ville',     keywords: ['bell ville', 'bellville'],                                      costo: 3000   },
+  // ── CORREDOR NOA (Tucumán / Salta / Santiago del Estero) ──────
+  { id: 'rn9-cabeza-buey',  nombre: 'Peaje Cabeza de Buey (RN 9 Salta)',            lat: -24.7850, lon: -65.0480, costo: 1500, radioKm: 0.5 },
+  { id: 'rn9-molle-yaco',   nombre: 'Peaje Molle Yaco (RN 9 Tucumán)',              lat: -26.3580, lon: -65.2680, costo: 1500, radioKm: 0.5 },
+  { id: 'rn34-fernandez',   nombre: 'Peaje Fernández (RN 34 Santiago del Estero)',  lat: -27.9250, lon: -63.8950, costo: 1500, radioKm: 0.5 },
 
-  // RN 36 – Tramo completo hacia Río Cuarto (3 cabinas RAC)
-  { id: 'rio-cuarto',     keywords: ['río cuarto', 'rio cuarto'],                                     costo: 9000   },
-
-  // Traslasierra (RN 20 → RP 28 por Altas Cumbres)
-  { id: 'mina-clavero',   keywords: ['mina clavero'],                                                 costo: 3000   },
-  { id: 'nono',           keywords: ['nono', 'las rosas'],                                            costo: 3000   },
-  { id: 'villa-dolores',  keywords: ['villa dolores'],                                                costo: 3000   },
-
-  // Aeropuerto
-  { id: 'aeropuerto',     keywords: ['aeropuerto', 'taravella', 'pajas blancas'],                     costo: 0      },
-
-  // ── Destinos Interprovinciales (acumulado ida) ─────────────────
-  // Rosario: 1 RAC + 2 nacionales (James Craik + Carcarañá)
-  { id: 'rosario',        keywords: ['rosario'],                                                      costo: 6000   },
-
-  // Buenos Aires: 1 RAC + ~5 nacionales
-  { id: 'buenos-aires',   keywords: ['buenos aires', 'retiro', 'palermo', 'caba', 'microcentro', 'ezeiza', 'aeroparque'], costo: 11000  },
-
-  // Mendoza: 1 RAC + ~3 nacionales
-  { id: 'mendoza',        keywords: ['mendoza'],                                                      costo: 8000   },
-
-  // San Luis / Villa Mercedes: 3 RAC + ~1 nacional
-  { id: 'san-luis',       keywords: ['san luis', 'villa mercedes'],                                   costo: 11000  },
-
-  // Salta / Tucumán: 1 RAC (RN9 Norte) + ~2 nacionales
-  { id: 'salta',          keywords: ['salta'],                                                        costo: 6000   },
-  { id: 'tucuman',        keywords: ['tucumán', 'tucuman', 'san miguel de tucumán'],                  costo: 6000   },
-  { id: 'santiago-estero',keywords: ['santiago del estero'],                                           costo: 5000   },
-
-  // Neuquén: 3 RAC (RN36) + ~3 nacionales
-  { id: 'neuquen',        keywords: ['neuquén', 'neuquen'],                                           costo: 14000  },
-
-  // Santa Fe (capital)
-  { id: 'santa-fe',       keywords: ['santa fe'],                                                     costo: 6000   },
-
-  // Mar del Plata / Costa Atlántica
-  { id: 'mar-del-plata',  keywords: ['mar del plata', 'miramar', 'pinamar', 'villa gesell'],          costo: 14000  },
-
-  // La Rioja / Catamarca
-  { id: 'la-rioja',       keywords: ['la rioja'],                                                     costo: 5000   },
-  { id: 'catamarca',      keywords: ['catamarca', 'san fernando del valle'],                          costo: 5000   },
+  // ── BUENOS AIRES / SANTA FE / COSTA ATLÁNTICA ────────────────
+  { id: 'ap-rosario-stafe', nombre: 'Peaje Autopista Rosario - Santa Fe (AP-01)',   lat: -32.7850, lon: -60.7480, costo: 1500, radioKm: 0.5 },
+  { id: 'aubasa-hudson',    nombre: 'Peaje Hudson (Autopista BsAs - La Plata)',     lat: -34.7880, lon: -58.1750, costo: 2000, radioKm: 0.5 },
+  { id: 'aubasa-samborombon',nombre: 'Peaje Samborombón (Ruta 2 Costa Atlántica)',   lat: -35.5680, lon: -58.0480, costo: 3000, radioKm: 0.5 },
+  { id: 'aubasa-maipu',     nombre: 'Peaje Maipú (Ruta 2 Costa Atlántica)',         lat: -36.8680, lon: -57.8850, costo: 3000, radioKm: 0.5 },
 ];
 
 function esHoraPico(hora) {
   return (hora >= 7 && hora < 9) || (hora >= 17 && hora < 20);
 }
 
-function calcularPeajes(origenText, destinoText) {
-  const texto = (origenText + ' ' + destinoText).toLowerCase();
-  const ruta = TABLA_PEAJES.find(r => r.keywords.some(kw => texto.includes(kw)));
-  return ruta ? ruta.costo : 0;
+function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+/**
+ * Analiza espacialmente si la traza de la ruta cruza alguna cabina de peaje.
+ * @param {Array} routeCoords - Puntos GeoJSON [[lon, lat], ...]
+ * @returns {object} { costoTotal, detalles: [{nombre, costo}] }
+ */
+function calcularPeajesEspaciales(routeCoords) {
+  if (!routeCoords || !Array.isArray(routeCoords) || routeCoords.length === 0) {
+    return { costoTotal: 0, detalles: [] };
+  }
+
+  const cabinasCruzadas = [];
+  let costoTotal = 0;
+
+  CABINAS_PEAJE.forEach(cabina => {
+    const pasoPorCabina = routeCoords.some(pt => {
+      const lon = pt[0];
+      const lat = pt[1];
+      if (Math.abs(lat - cabina.lat) > 0.02 || Math.abs(lon - cabina.lon) > 0.02) {
+        return false;
+      }
+      const dist = calcularDistanciaKm(lat, lon, cabina.lat, cabina.lon);
+      return dist <= (cabina.radioKm || 0.5);
+    });
+
+    if (pasoPorCabina) {
+      cabinasCruzadas.push({ nombre: cabina.nombre, costo: cabina.costo });
+      costoTotal += cabina.costo;
+    }
+  });
+
+  return { costoTotal, detalles: cabinasCruzadas };
 }
 
 /**
@@ -154,11 +164,12 @@ function calcularPeajes(origenText, destinoText) {
  * @param {string} tipoViaje - 'solo_ida' | 'ida_vuelta'
  * @param {number} horaSalida - Hora en formato 0-23
  * @param {number} minutosEspera - Minutos de espera seleccionados
- * @param {string} destinoText - Texto del destino (para detectar localidades)
+ * @param {string} destinoText - Texto del destino
  * @param {string} origenText - Texto del origen
+ * @param {Array} routeCoords - Puntos GeoJSON de la ruta
  * @returns {object} Desglose de precios
  */
-function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEspera, destinoText, origenText) {
+function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEspera, destinoText, origenText, routeCoords = null) {
   let precioBase = 0;
 
   // ── REGLA 1: URBANO < 15 km ──────────────────────────────
@@ -167,7 +178,6 @@ function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEsper
     if (esHoraPico(horaSalida)) precioBase *= PRECIOS.RECARGO_HORA_PICO;
     if (tipoViaje === 'ida_vuelta') precioBase *= 2;
     
-    // Al ser un servicio privado con reserva, se fija un costo mínimo
     if (precioBase < PRECIOS.TARIFA_MINIMA_URBANA) {
       precioBase = PRECIOS.TARIFA_MINIMA_URBANA;
     }
@@ -197,21 +207,20 @@ function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEsper
   else {
     const costoIda = kmIda * PRECIOS.PRECIO_KM_LARGO_IDA;
     if (tipoViaje === 'solo_ida') {
-      precioBase = costoIda + (kmIda * PRECIOS.PRECIO_KM_LARGO_VUELTA); // vuelta vacía al 50%
+      precioBase = costoIda + (kmIda * PRECIOS.PRECIO_KM_LARGO_VUELTA);
     } else {
-      precioBase = costoIda * 2; // cliente paga vuelta completa
+      precioBase = costoIda * 2;
     }
   }
 
   let minutosACobrar = 0;
   if (minutosEspera > 0) {
-    // Si solicita tiempo de espera, el mínimo cobrado es 10 min ($1.667 ARS).
-    // A partir de allí, se fracciona proporcionalmente por cada minuto ingresado.
     minutosACobrar = Math.max(10, minutosEspera);
   }
 
   const costoEspera  = (minutosACobrar / 60) * PRECIOS.PRECIO_HORA_ESPERA;
-  const costosPeajes = calcularPeajes(origenText, destinoText);
+  const infoPeajes   = calcularPeajesEspaciales(routeCoords);
+  const costosPeajes = infoPeajes.costoTotal;
   const total        = precioBase + costoEspera + costosPeajes;
   const totalRedondeado = Math.ceil(total / 100) * 100;
 
@@ -219,6 +228,7 @@ function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEsper
     precioBase:     Math.ceil(precioBase / 100) * 100,
     costoEspera,
     costosPeajes,
+    detallesPeajes: infoPeajes.detalles,
     totalRedondeado,
   };
 }

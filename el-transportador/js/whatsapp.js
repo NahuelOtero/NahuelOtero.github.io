@@ -5,7 +5,7 @@
 const WA_NUMBER = '5493517401122';
 
 function generarUrlWhatsApp(datos) {
-  const { nombre, origen, paradas, destino, tipoViaje, fecha, hora, minutosEspera, precioFinal } = datos;
+  const { nombre, origen, paradas, destino, tipoViaje, fecha, hora, minutosEspera, precioFinal, detallesPeajes } = datos;
 
   const nombreCliente = nombre ? nombre.trim() : '';
   const saludoInicial = nombreCliente ? `¡Hola! Soy ${nombreCliente}.` : `¡Hola!`;
@@ -45,6 +45,12 @@ function generarUrlWhatsApp(datos) {
     textoEspera = partes.join(' y ');
   }
 
+  let peajesTexto = '';
+  if (detallesPeajes && detallesPeajes.length > 0) {
+    peajesTexto = `🛣️ Peajes detectados (${detallesPeajes.length}):\n` +
+      detallesPeajes.map(p => `   • ${p.nombre} (${formatARS(p.costo)})`).join('\n') + '\n';
+  }
+
   const msg =
     `${saludoInicial} Acabo de cotizar un viaje en tu web. Te paso los detalles:\n\n` +
     (nombreCliente ? `👤 Cliente: ${nombreCliente}\n` : '') +
@@ -55,6 +61,7 @@ function generarUrlWhatsApp(datos) {
     `🕐 Hora de salida: ${horaTexto}\n` +
     `🔄 Modalidad: ${tipoTexto}\n` +
     `⏱️ Tiempo de espera: ${textoEspera}\n` +
+    peajesTexto +
     `💳 Precio Estimado: ${formatARS(precioFinal)} ARS\n\n` +
     `🗺️ Ver ruta en el mapa:\n${mapUrl}\n\n` +
     `Quiero coordinar la fecha del viaje y confirmar disponibilidad.`;
