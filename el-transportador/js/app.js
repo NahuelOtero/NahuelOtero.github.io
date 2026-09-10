@@ -256,11 +256,6 @@ function abrirWhatsApp() {
   });
   window.open(url, '_blank');
 }
-    precioFinal: estado.resultado.totalRedondeado,
-    detallesPeajes: estado.resultado.detallesPeajes || [],
-  });
-  window.open(url, '_blank');
-}
 
 // ── Helpers UI ──────────────────────────────────────────────
 function mostrarError(msg) {

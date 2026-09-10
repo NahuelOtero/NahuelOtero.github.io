@@ -1,7 +1,7 @@
 // ============================================================
 //  TARIFAS.JS — Motor de precios de El Transportador
 //  Generado automáticamente desde OpenStreetMap (23 Provincias)
-//  Versión: v1.4.0
+//  Versión: v1.4.1
 // ============================================================
 
 const PRECIOS = {
