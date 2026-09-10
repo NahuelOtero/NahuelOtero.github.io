@@ -50,15 +50,22 @@ function limpiarRuta() {
 /**
  * Calcula y dibuja la ruta entre waypoints.
  * @param {Array} waypoints - [{lat, lon, texto, tipo}, ...]
- * @returns {Promise<{kmIda, minutos}>}
+ * @param {string} tipoViaje - 'solo_ida' | 'ida_vuelta'
+ * @returns {Promise<{kmTotal, kmIda, minutos, routeCoords}>}
  */
-async function calcularRuta(waypoints) {
+async function calcularRuta(waypoints, tipoViaje = 'solo_ida') {
   if (waypoints.length < 2) return null;
 
   document.getElementById('map-loading').style.display = 'flex';
   limpiarRuta();
 
-  const coords = waypoints.map(w => `${w.lon},${w.lat}`).join(';');
+  let waypointsConsulta = [...waypoints];
+  if (tipoViaje === 'ida_vuelta') {
+    const retorno = waypoints.slice(0, -1).reverse();
+    waypointsConsulta = waypoints.concat(retorno);
+  }
+
+  const coords = waypointsConsulta.map(w => `${w.lon},${w.lat}`).join(';');
   const url    = `${OSRM}/${coords}?overview=full&geometries=geojson`;
 
   try {
@@ -68,7 +75,7 @@ async function calcularRuta(waypoints) {
     if (data.code !== 'Ok') throw new Error('OSRM sin resultado');
 
     const ruta    = data.routes[0];
-    const kmIda   = parseFloat((ruta.distance / 1000).toFixed(1));
+    const kmTotal = parseFloat((ruta.distance / 1000).toFixed(1));
     const minutos = Math.round(ruta.duration / 60);
 
     // Dibujar ruta
@@ -77,18 +84,26 @@ async function calcularRuta(waypoints) {
     }).addTo(map);
     map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
 
-    // Marcadores
+    // Marcadores (solo se dibujan los puntos únicos del itinerario)
     waypoints.forEach((w, i) => {
       const tipo = i === 0 ? 'origen' : i === waypoints.length - 1 ? 'destino' : 'parada';
       agregarMarcador(w.lat, w.lon, tipo, w.texto);
     });
 
-    // Info
-    document.getElementById('distancia-text').textContent = kmIda;
-    document.getElementById('duracion-text').textContent  = minutos + ' min';
+    // Info mapa
+    document.getElementById('distancia-text').textContent = kmTotal;
+    const hs = Math.floor(minutos / 60);
+    const mins = minutos % 60;
+    const durStr = hs > 0 ? `${hs}h ${mins}m` : `${minutos} min`;
+    document.getElementById('duracion-text').textContent  = durStr;
     document.getElementById('map-info').style.display     = 'flex';
 
-    return { kmIda, minutos, routeCoords: ruta.geometry.coordinates };
+    return {
+      kmTotal,
+      kmIda: tipoViaje === 'ida_vuelta' ? parseFloat((kmTotal / 2).toFixed(1)) : kmTotal,
+      minutos,
+      routeCoords: ruta.geometry.coordinates
+    };
   } catch (e) {
     console.error('Error OSRM:', e);
     return null;

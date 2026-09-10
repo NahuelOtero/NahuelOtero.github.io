@@ -48,8 +48,13 @@ function generarUrlWhatsApp(datos) {
   let peajesTexto = '';
   if (detallesPeajes && detallesPeajes.length > 0) {
     peajesTexto = `🛣️ Peajes detectados (${detallesPeajes.length}):\n` +
-      detallesPeajes.map(p => `   • ${p.nombre} (${formatARS(p.costo)})`).join('\n') + '\n';
+      detallesPeajes.map(p => `   • ${p.nombre}: ${formatARS(p.costo)}`).join('\n') + '\n';
   }
+
+  const { kmTotal, kmIda } = datos;
+  const distTexto = (tipoViaje === 'ida_vuelta' && kmTotal && kmIda)
+    ? `${kmTotal} km (${kmIda} km ida + ${kmIda} km vuelta)`
+    : `${kmTotal || ''} km`.trim();
 
   const msg =
     `${saludoInicial} Acabo de cotizar un viaje en tu web. Te paso los detalles:\n\n` +
@@ -57,6 +62,7 @@ function generarUrlWhatsApp(datos) {
     `📍 Origen: ${origen.texto}\n` +
     `🛑 Paradas:\n${paradasTexto}\n` +
     `🏁 Destino: ${destino.texto}\n` +
+    `📏 Distancia: ${distTexto}\n` +
     `📅 Fecha de salida: ${fechaTexto}\n` +
     `🕐 Hora de salida: ${horaTexto}\n` +
     `🔄 Modalidad: ${tipoTexto}\n` +

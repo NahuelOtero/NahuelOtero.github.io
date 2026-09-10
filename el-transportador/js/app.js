@@ -8,6 +8,7 @@ const estado = {
   destino:    null,
   paradas:    [],    // [{ id, texto, lat, lon }]
   tipoViaje:  'solo_ida',
+  kmTotal:    0,
   kmIda:      0,
   minutos:    0,
   rutaOk:     false,
@@ -55,10 +56,15 @@ function bindEventos() {
 
   // Tipo de viaje
   document.querySelectorAll('.tipo-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       estado.tipoViaje = btn.dataset.value;
+      await recalcularRutaAuto();
+      const card = document.getElementById('resultado');
+      if (card && card.style.display !== 'none') {
+        calcular();
+      }
     });
   });
 
@@ -133,8 +139,9 @@ async function recalcularRutaAuto() {
   const waypoints = armarWaypoints();
   if (waypoints.length < 2) { limpiarRuta(); estado.rutaOk = false; estado.routeCoords = null; return; }
 
-  const res = await calcularRuta(waypoints);
+  const res = await calcularRuta(waypoints, estado.tipoViaje);
   if (res) {
+    estado.kmTotal     = res.kmTotal;
     estado.kmIda       = res.kmIda;
     estado.minutos     = res.minutos;
     estado.routeCoords = res.routeCoords;
@@ -161,15 +168,15 @@ async function calcular() {
   if (!estado.destino || !estado.destino.lat) { mostrarError('Ingresá un destino válido.'); return; }
 
   if (!estado.rutaOk) {
-    const res = await recalcularRutaAuto();
+    await recalcularRutaAuto();
     if (!estado.rutaOk) { mostrarError('No se pudo calcular la ruta. Verificá los puntos ingresados.'); return; }
   }
 
-  const hora        = parseInt(document.getElementById('hora').value.split(':')[0], 10);
+  const hora          = parseInt(document.getElementById('hora').value.split(':')[0], 10);
   const minutosEspera = parseInt(document.getElementById('espera').value, 10) || 0;
 
   const result = calcularPrecio(
-    estado.kmIda,
+    estado.kmTotal,
     estado.minutos,
     estado.tipoViaje,
     hora,
@@ -184,12 +191,16 @@ async function calcular() {
 }
 
 function mostrarResultado(r, minutosEspera) {
-  document.getElementById('res-distancia').textContent = estado.kmIda + ' km';
+  const distText = estado.tipoViaje === 'ida_vuelta'
+    ? `${estado.kmTotal} km (${estado.kmIda} km ida + ${estado.kmIda} km vuelta)`
+    : `${estado.kmTotal} km`;
+
+  document.getElementById('res-distancia').textContent = distText;
   document.getElementById('res-base').textContent      = formatARS(r.precioBase);
 
-  const filaEspera  = document.getElementById('res-espera-row');
-  const filaPeajes  = document.getElementById('res-peajes-row');
-  const divDetalle  = document.getElementById('res-peajes-detalle');
+  const filaEspera   = document.getElementById('res-espera-row');
+  const filaPeajes   = document.getElementById('res-peajes-row');
+  const divDetalle   = document.getElementById('res-peajes-detalle');
   const listaDetalle = document.getElementById('res-peajes-lista');
 
   if (r.costoEspera > 0) {
@@ -230,14 +241,21 @@ function mostrarResultado(r, minutosEspera) {
 function abrirWhatsApp() {
   if (!estado.resultado) return;
   const url = generarUrlWhatsApp({
-    nombre:      document.getElementById('nombre-cliente').value,
-    origen:      estado.origen,
-    paradas:     estado.paradas.filter(p => p.texto),
-    destino:     estado.destino,
-    tipoViaje:   estado.tipoViaje,
-    fecha:       document.getElementById('fecha').value,
-    hora:        document.getElementById('hora').value,
+    nombre:        document.getElementById('nombre-cliente').value,
+    origen:        estado.origen,
+    paradas:       estado.paradas.filter(p => p.texto),
+    destino:       estado.destino,
+    tipoViaje:     estado.tipoViaje,
+    kmTotal:       estado.kmTotal,
+    kmIda:         estado.kmIda,
+    fecha:         document.getElementById('fecha').value,
+    hora:          document.getElementById('hora').value,
     minutosEspera: parseInt(document.getElementById('espera').value, 10) || 0,
+    precioFinal:   estado.resultado.totalRedondeado,
+    detallesPeajes: estado.resultado.detallesPeajes || [],
+  });
+  window.open(url, '_blank');
+}
     precioFinal: estado.resultado.totalRedondeado,
     detallesPeajes: estado.resultado.detallesPeajes || [],
   });

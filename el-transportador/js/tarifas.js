@@ -1,7 +1,7 @@
 // ============================================================
 //  TARIFAS.JS — Motor de precios de El Transportador
 //  Generado automáticamente desde OpenStreetMap (23 Provincias)
-//  Versión: v1.3.0
+//  Versión: v1.4.0
 // ============================================================
 
 const PRECIOS = {
@@ -1943,61 +1943,87 @@ function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
 }
 
 /**
- * Analiza espacialmente si la traza de la ruta cruza alguna cabina de peaje.
+ * Analiza secuencialmente la traza de la ruta para contabilizar los pasajes reales por peajes.
+ * Soporta múltiples pasadas (ida y vuelta) al entrar y salir del radio de cada cabina.
  * @param {Array} routeCoords - Puntos GeoJSON [[lon, lat], ...]
- * @returns {object} { costoTotal, detalles: [{nombre, costo}] }
+ * @returns {object} { costoTotal, detalles: [{nombre, costo, pasadas}] }
  */
 function calcularPeajesEspaciales(routeCoords) {
   if (!routeCoords || !Array.isArray(routeCoords) || routeCoords.length === 0) {
     return { costoTotal: 0, detalles: [] };
   }
 
-  const cabinasCruzadas = [];
-  let costoTotal = 0;
+  const estadoCabinas = new Map();
+  CABINAS_PEAJE.forEach(c => estadoCabinas.set(c.id, { cabina: c, pasadas: 0, enZona: false }));
 
-  CABINAS_PEAJE.forEach(cabina => {
-    const pasoPorCabina = routeCoords.some(pt => {
-      const lon = pt[0];
-      const lat = pt[1];
-      // Pre-filtro de bounding box (~11km margin)
+  routeCoords.forEach(pt => {
+    const lon = pt[0];
+    const lat = pt[1];
+
+    CABINAS_PEAJE.forEach(cabina => {
+      // Bounding box rápido (~11km margin)
       if (Math.abs(lat - cabina.lat) > 0.1 || Math.abs(lon - cabina.lon) > 0.1) {
-        return false;
+        const st = estadoCabinas.get(cabina.id);
+        st.enZona = false;
+        return;
       }
-      const dist = calcularDistanciaKm(lat, lon, cabina.lat, cabina.lon);
-      return dist <= (cabina.radioKm || 2.0);
-    });
 
-    if (pasoPorCabina) {
-      cabinasCruzadas.push({ nombre: cabina.nombre, costo: cabina.costo });
-      costoTotal += cabina.costo;
+      const dist = calcularDistanciaKm(lat, lon, cabina.lat, cabina.lon);
+      const enRadio = dist <= (cabina.radioKm || 2.0);
+      const st = estadoCabinas.get(cabina.id);
+
+      if (enRadio && !st.enZona) {
+        st.pasadas += 1;
+        st.enZona = true;
+      } else if (!enRadio && st.enZona) {
+        st.enZona = false;
+      }
+    });
+  });
+
+  let costoTotal = 0;
+  const detalles = [];
+
+  estadoCabinas.forEach(st => {
+    if (st.pasadas > 0) {
+      const costoAcumulado = st.cabina.costo * st.pasadas;
+      costoTotal += costoAcumulado;
+      const labelPasadas = st.pasadas > 1 ? ` (x${st.pasadas} pasadas)` : '';
+      detalles.push({
+        nombre: `${st.cabina.nombre}${labelPasadas}`,
+        costo: costoAcumulado,
+        costoUnitario: st.cabina.costo,
+        pasadas: st.pasadas
+      });
     }
   });
 
-  return { costoTotal, detalles: cabinasCruzadas };
+  return { costoTotal, detalles };
 }
 
 /**
  * Calcula el precio del viaje.
+ * @param {number} kmDistancia - Distancia total del recorrido en km (ida o circuito ida+vuelta)
  */
-function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEspera, destinoText, origenText, routeCoords = null) {
+function calcularPrecio(kmDistancia, minutosViaje, tipoViaje, horaSalida, minutosEspera, destinoText, origenText, routeCoords = null) {
   let precioBase = 0;
+  const kmIda = tipoViaje === 'ida_vuelta' ? kmDistancia / 2 : kmDistancia;
 
-  // ── REGLA 1: URBANO < 15 km ──────────────────────────────
+  // ── REGLA 1: URBANO < 15 km (un solo sentido) ───────────
   if (kmIda < 15) {
-    precioBase = (kmIda * PRECIOS.PRECIO_KM_URBANO) + (minutosViaje * PRECIOS.PRECIO_MIN_URBANO);
+    precioBase = (kmDistancia * PRECIOS.PRECIO_KM_URBANO) + (minutosViaje * PRECIOS.PRECIO_MIN_URBANO);
     if (esHoraPico(horaSalida)) precioBase *= PRECIOS.RECARGO_HORA_PICO;
-    if (tipoViaje === 'ida_vuelta') precioBase *= 2;
     
     if (precioBase < PRECIOS.TARIFA_MINIMA_URBANA) {
       precioBase = PRECIOS.TARIFA_MINIMA_URBANA;
     }
   }
 
-  // ── REGLA 2: INTERURBANO CORTO 15–100 km ─────────────────
+  // ── REGLA 2: INTERURBANO CORTO 15–100 km (un solo sentido) 
   else if (kmIda <= 100) {
-    if (tipoViaje === 'solo_ida') {
-      precioBase = kmIda * PRECIOS.PRECIO_KM_CORTO;
+    precioBase = kmDistancia * PRECIOS.PRECIO_KM_CORTO;
 
+    if (tipoViaje === 'solo_ida') {
       const dest = destinoText.toLowerCase();
       const plusNoche  = ['alta gracia', 'bialet massé', 'bialet masse', 'jesús maría', 'jesus maria'];
       const plusMadrug = ['carlos paz', 'villa carlos paz'];
@@ -2008,18 +2034,17 @@ function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEsper
       if (plusMadrug.some(loc => dest.includes(loc))) {
         if (horaSalida >= 3 && horaSalida < 7) precioBase += PRECIOS.PLUS_RETORNO_VACIO;
       }
-    } else {
-      precioBase = kmIda * 2 * PRECIOS.PRECIO_KM_CORTO;
     }
   }
 
-  // ── REGLA 3: LARGA DISTANCIA > 100 km ────────────────────
+  // ── REGLA 3: LARGA DISTANCIA > 100 km (un solo sentido) ──
   else {
-    const costoIda = kmIda * PRECIOS.PRECIO_KM_LARGO_IDA;
     if (tipoViaje === 'solo_ida') {
-      precioBase = costoIda + (kmIda * PRECIOS.PRECIO_KM_LARGO_VUELTA);
+      const costoIda = kmIda * PRECIOS.PRECIO_KM_LARGO_IDA;
+      const costoRetornoVacio = kmIda * PRECIOS.PRECIO_KM_LARGO_VUELTA;
+      precioBase = costoIda + costoRetornoVacio;
     } else {
-      precioBase = costoIda * 2;
+      precioBase = kmDistancia * PRECIOS.PRECIO_KM_LARGO_IDA;
     }
   }
 
@@ -2046,3 +2071,4 @@ function calcularPrecio(kmIda, minutosViaje, tipoViaje, horaSalida, minutosEsper
 function formatARS(valor) {
   return '$' + valor.toLocaleString('es-AR');
 }
+
